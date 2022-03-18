@@ -1,0 +1,628 @@
+//AmeronToken.sol
+
+
+pragma solidity ^0.4.24;
+import "./ERC20.sol";
+import "./SafeMath.sol";
+import "./StandardToken.sol";
+
+contract AmeronToken is ERC20, StandardToken {
+
+using SafeMath for uint256;
+
+string public constant name = "Ameron";
+
+string public constant symbol = "AMR";
+
+uint8 public constant decimals = 18;
+
+uint256 public constant INITIAL_SUPPLY = 100000000000000000000000000;
+
+uint256 public constant MAX_SUPPLY = 1000000000000000000000000000000;
+
+address public constant TOKEN_SALE_WALLET = 0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9;
+
+address public constant MINTER_WALLET = 0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9;
+
+address public constant VAULT_WALLET = 0xC19f017dD968C3aEB5b44874fdd2126D91f3Ef9A;
+
+address public constant RESERVE_WALLET = 0xC19f017dD968C3aEB5b44874fdd2126D91f3eF9A;
+
+address public constant BURNER_WALLET = 0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9;
+
+address public constant GOVERNANCE_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant FOUNDATION_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant TEAM_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant COMMUNITY_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant ECOSYSTEM_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant PARTNERS_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant BOUNTY_WALLET = 0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9;
+
+address public constant AIRDROP_WALLET = 0x3E5e9111Ae8eB78Fe1CC3bb8915d5D461F3Ef9A9;
+
+address public constant TOKEN_SALE_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant FOUNDATION_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant TEAM_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant COMMUNITY_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant ECOSYSTEM_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant PARTNERS_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant LEGAL_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant STRATEGY_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant MARKETING_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant BUSINESS_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant OPERATIONS_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant RESERVE_ADVISOR_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant ECOSYSTEM_PARTNER_WALLET = 0x0000000000000000000000000000000000000000;
+
+address public constant ECOSYSTEM_RESERVE_WALLET = 0x0000000000000000000000000000000000000000;
+
+uint256 public totalSupply_;
+
+mapping (address => uint256) balances;
+
+mapping (address => mapping (address => uint256)) allowed;
+
+uint256 public TOKEN_SALE_RATE = 1;
+
+uint256 public AIRDROP_RATE = 1;
+
+uint256 public ECOSYSTEM_PARTNER_RATE = 1;
+
+uint256 public ECOSYSTEM_RESERVE_RATE = 1;
+
+uint256 public RESERVE_RATE = 1;
+
+uint256 public STAKE_RATE = 1;
+
+uint256 public TEAM_RATE = 1;
+
+uint256 public COMMUNITY_RATE = 1;
+
+uint256 public FOUNDATION_RATE = 1;
+
+uint256 public TOKEN_SALE_ADVISOR_RATE = 1;
+
+uint256 public FOUNDATION_ADVISOR_RATE = 1;
+
+uint256 public TEAM_ADVISOR_RATE = 1;
+
+uint256 public COMMUNITY_ADVISOR_RATE = 1;
+
+uint256 public ECOSYSTEM_ADVISOR_RATE = 1;
+
+uint256 public PARTNERS_ADVISOR_RATE = 1;
+
+uint256 public LEGAL_ADVISOR_RATE = 1;
+
+uint256 public STRATEGY_ADVISOR_RATE = 1;
+
+uint256 public MARKETING_ADVISOR_RATE = 1;
+
+uint256 public BUSINESS_ADVISOR_RATE = 1;
+
+uint256 public OPERATIONS_ADVISOR_RATE = 1;
+
+uint256 public RESERVE_ADVISOR_RATE = 1;
+
+uint256 public TOKEN_SALE_CAP = 10000000000000000000000000000;
+
+uint256 public AIRDROP_CAP = 100000000000000000000000000;
+
+uint256 public ECOSYSTEM_PARTNER_CAP = 100000000000000000000000000;
+
+uint256 public ECOSYSTEM_RESERVE_CAP = 1000000000000000000000000000;
+
+uint256 public RESERVE_CAP = 100000000000000000000000000;
+
+uint256 public STAKE_CAP = 100000000000000000000000000;
+
+uint256 public TEAM_CAP = 100000000000000000000000000;
+
+uint256 public COMMUNITY_CAP = 100000000000000000000000000;
+
+uint256 public FOUNDATION_CAP = 100000000000000000000000000;
+
+uint256 public TOKEN_SALE_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public FOUNDATION_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public TEAM_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public COMMUNITY_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public ECOSYSTEM_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public PARTNERS_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public LEGAL_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public STRATEGY_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public MARKETING_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public BUSINESS_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public OPERATIONS_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public RESERVE_ADVISOR_CAP = 1000000000000000000000000;
+
+uint256 public STAKE_PERIOD = 1 weeks;
+
+uint256 public STAKE_START = 1514764800;
+
+uint256 public STAKE_END = 1601414400;
+
+uint256 public UNSTAKE_PERIOD = 1 weeks;
+
+uint256 public UNSTAKE_START = 1601414400;
+
+uint256 public UNSTAKE_END = 1609084800;
+
+uint256 public VOTE_PERIOD = 1 weeks;
+
+uint256 public VOTE_START = 1601414400;
+
+uint256 public VOTE_END = 1609084800;
+
+uint256 public AIRDROP_PERIOD = 1 weeks;
+
+uint256 public AIRDROP_START = 1601414400;
+
+uint256 public AIRDROP_END = 1609084800;
+
+uint256 public ECOSYSTEM_PARTNER_PERIOD = 1 weeks;
+
+uint256 public ECOSYSTEM_PARTNER_START = 1601414400;
+
+uint256 public ECOSYSTEM_PARTNER_END = 1609084800;
+
+uint256 public ECOSYSTEM_RESERVE_PERIOD = 1 weeks;
+
+uint256 public ECOSYSTEM_RESERVE_START = 1601414400;
+
+uint256 public ECOSYSTEM_RESERVE_END = 1609084800;
+
+uint256 public TOKEN_SALE_PERIOD = 1 weeks;
+
+uint256 public TOKEN_SALE_START = 1601414400;
+
+uint256 public TOKEN_SALE_END = 1609084800;
+
+uint256 public TEAM_PERIOD = 1 weeks;
+
+uint256 public TEAM_START = 1601414400;
+
+uint256 public TEAM_END = 1609084800;
+
+uint256 public COMMUNITY_PERIOD = 1 weeks;
+
+uint256 public COMMUNITY_START = 1601414400;
+
+uint256 public COMMUNITY_END = 1609084800;
+
+uint256 public FOUNDATION_PERIOD = 1 weeks;
+
+uint256 public FOUNDATION_START = 1601414400;
+
+uint256 public FOUNDATION_END = 1609084800;
+
+uint256 public TOKEN_SALE_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public TOKEN_SALE_ADVISOR_START = 1601414400;
+
+uint256 public TOKEN_SALE_ADVISOR_END = 1609084800;
+
+uint256 public FOUNDATION_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public FOUNDATION_ADVISOR_START = 1601414400;
+
+uint256 public FOUNDATION_ADVISOR_END = 1609084800;
+
+uint256 public TEAM_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public TEAM_ADVISOR_START = 1601414400;
+
+uint256 public TEAM_ADVISOR_END = 1609084800;
+
+uint256 public COMMUNITY_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public COMMUNITY_ADVISOR_START = 1601414400;
+
+uint256 public COMMUNITY_ADVISOR_END = 1609084800;
+
+uint256 public ECOSYSTEM_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public ECOSYSTEM_ADVISOR_START = 1601414400;
+
+uint256 public ECOSYSTEM_ADVISOR_END = 1609084800;
+
+uint256 public PARTNERS_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public PARTNERS_ADVISOR_START = 1601414400;
+
+uint256 public PARTNERS_ADVISOR_END = 1609084800;
+
+uint256 public LEGAL_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public LEGAL_ADVISOR_START = 1601414400;
+
+uint256 public LEGAL_ADVISOR_END = 1609084800;
+
+uint256 public STRATEGY_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public STRATEGY_ADVISOR_START = 1601414400;
+
+uint256 public STRATEGY_ADVISOR_END = 1609084800;
+
+uint256 public MARKETING_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public MARKETING_ADVISOR_START = 1601414400;
+
+uint256 public MARKETING_ADVISOR_END = 1609084800;
+
+uint256 public BUSINESS_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public BUSINESS_ADVISOR_START = 1601414400;
+
+uint256 public BUSINESS_ADVISOR_END = 1609084800;
+
+uint256 public OPERATIONS_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public OPERATIONS_ADVISOR_START = 1601414400;
+
+uint256 public OPERATIONS_ADVISOR_END = 1609084800;
+
+uint256 public RESERVE_ADVISOR_PERIOD = 1 weeks;
+
+uint256 public RESERVE_ADVISOR_START = 1601414400;
+
+uint256 public RESERVE_ADVISOR_END = 1609084800;
+
+uint256 public BOUNTY_PERIOD = 1 weeks;
+
+uint256 public BOUNTY_START = 1601414400;
+
+uint256 public BOUNTY_END = 1609084800;
+
+
+bool public isMintingFinished() public view returns (bool) {
+
+return false;
+
+}
+
+bool public isTransferRestricted() public view returns (bool) {
+
+return false;
+
+}
+
+bool public isPaused() public view returns (bool) {
+
+return false;
+
+}
+
+uint256 public getRate(uint256 amount) public view returns (uint256) {
+
+if (amount <= TOKEN_SALE_CAP) {
+
+
+
+return TOKEN_SALE_RATE;
+
+
+
+}
+
+
+
+if (amount <= AIRDROP_CAP) {
+
+
+
+return AIRDROP_RATE;
+
+
+
+}
+
+
+
+if (amount <= ECOSYSTEM_PARTNER_CAP) {
+
+
+
+return ECOSYSTEM_PARTNER_RATE;
+
+
+
+}
+
+
+
+if (amount <= ECOSYSTEM_RESERVE_CAP) {
+
+
+
+return ECOSYSTEM_RESERVE_RATE;
+
+
+
+}
+
+
+
+if (amount <= RESERVE_CAP) {
+
+
+
+return RESERVE_RATE;
+
+
+
+}
+
+
+
+if (amount <= STAKE_CAP) {
+
+
+
+return STAKE_RATE;
+
+
+
+}
+
+
+
+if (amount <= TEAM_CAP) {
+
+
+
+return TEAM_RATE;
+
+
+
+}
+
+
+
+if (amount <= COMMUNITY_CAP) {
+
+
+
+return COMMUNITY_RATE;
+
+
+
+}
+
+
+
+if (amount <= FOUNDATION_CAP) {
+
+
+
+return FOUNDATION_RATE;
+
+
+
+}
+
+
+
+if (amount <= TOKEN_SALE_ADVISOR_CAP) {
+
+
+
+return TOKEN_SALE_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= FOUNDATION_ADVISOR_CAP) {
+
+
+
+return FOUNDATION_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= TEAM_ADVISOR_CAP) {
+
+
+
+return TEAM_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= COMMUNITY_ADVISOR_CAP) {
+
+
+
+return COMMUNITY_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= ECOSYSTEM_ADVISOR_CAP) {
+
+
+
+return ECOSYSTEM_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= PARTNERS_ADVISOR_CAP) {
+
+
+
+return PARTNERS_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= LEGAL_ADVISOR_CAP) {
+
+
+
+return LEGAL_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= STRATEGY_ADVISOR_CAP) {
+
+
+
+return STRATEGY_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= MARKETING_ADVISOR_CAP) {
+
+
+
+return MARKETING_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= BUSINESS_ADVISOR_CAP) {
+
+
+
+return BUSINESS_ADVISOR_RATE;
+
+
+
+}
+
+
+
+if (amount <= OPERATIONS_ADVISOR_CAP) {
+
+
+
+return OPERATIONS_ADVISOR_RATE;
+
+
+
+
+
+}
+
+
+
+if (amount <= RESERVE_ADVISOR_CAP) {
+
+
+
+return RESERVE_ADVISOR_RATE;
+
+
+
+}
+
+
+
+return 0;
+
+
+
+}
+
+
+
+bool public isMintingFinished() public view returns (bool) { // minting has finished when the advisor periods have all passed. return false; }
+
+
+
+uint256 public getRate(uint256 amount) public view returns (uint256) { // rate for a given amount, in wei per day. if (!isMintingFinished()) { return 0; } else { return calculateRate(amount); } }
+
+
+
+function calculateRate(uint256 amount) internal pure returns (uint256) { // calculate the rate, in wei per day. uint256 totalSupply = amount.mul(TOKEN_ SUPPLY).div(1 days); return (totalSupply.mul(RESERVE_ RATE) .div(1 days)); }
+
+
+
+}
+
+
+
+
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+}
